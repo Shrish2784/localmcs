@@ -23,22 +23,22 @@ class ListRequest extends BaseRequest
 
     public function getLimit()
     {
-        return $this->get(self::LIMIT);
+        return $this->input(self::LIMIT);
     }
 
     public function getOrder()
     {
-        return $this->get(self::ORDER);
+        return $this->input(self::ORDER);
     }
 
     public function getOrderBy()
     {
-        return $this->get(self::ORDER_BY);
+        return $this->input(self::ORDER_BY);
     }
 
     public function getSearchQuery()
     {
-        return $this->get(self::SEARCH_QUERY);
+        return $this->input(self::SEARCH_QUERY);
     }
 
 

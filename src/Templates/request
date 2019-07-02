@@ -8,7 +8,6 @@
 namespace {{namespace}};
 
 use {{contract}} as Contract;
-use Devslane\Generator\Parents\BaseRequest;
 
 /**
  * Class {{class}}
