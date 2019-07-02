@@ -183,11 +183,11 @@ php artisan generate:request users
 ```
 
 Running this for the very first time generates _ListRequest_ Class which is then extended by all the ListRequest Classes.
-
+* ListRequest
 ```php
 namespace App\Api\V1\Requests;
 
-use Devslane\Generator\Parents\BaseRequest;
+use Devslane\Generator\Requests\BaseRequest;
 
 /**
  * Class ListTesttableRequest
@@ -202,19 +202,19 @@ class ListRequest extends BaseRequest
 
 
     public function getLimit() {
-        return $this->get(self::LIMIT);
+        return $this->input(self::LIMIT);
     }
 
     public function getOrder() {
-        return $this->get(self::ORDER);
+        return $this->input(self::ORDER);
     }
 
     public function getOrderBy() {
-        return $this->get(self::ORDER_BY);
+        return $this->input(self::ORDER_BY);
     }
 
     public function getSearchQuery() {
-        return $this->get(self::SEARCH_QUERY);
+        return $this->input(self::SEARCH_QUERY);
     }
 }
 ```
@@ -260,24 +260,25 @@ class CreateUserRequest extends ListRequest implements Contract
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     public function getFirstName() {
-        return $this->get(self::FIRST_NAME);
+        return $this->input(self::FIRST_NAME);
     }
 
     public function getLastName() {
-        return $this->get(self::LAST_NAME);
+        return $this->input(self::LAST_NAME);
     }
 
     public function getAge() {
-        return $this->get(self::AGE);
+        return $this->input(self::AGE);
     }
 
     public function getCreatedAt() {
-        return $this->get(self::CREATED_AT);
+        return $this->input(self::CREATED_AT);
     }
 
     public function getUpdatedAt() {
-        return $this->get(self::UPDATED_AT);
+        return $this->input(self::UPDATED_AT);
     }
 }
 ```
@@ -299,8 +300,9 @@ class UpdateUserRequest extends ListRequest implements Contract
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     public function getFirstName() {
-        return $this->get(self::FIRST_NAME);
+        return $this->input(self::FIRST_NAME);
     }
 
     public function hasFirstName() {
@@ -308,7 +310,7 @@ class UpdateUserRequest extends ListRequest implements Contract
     }
 
     public function getLastName() {
-        return $this->get(self::LAST_NAME);
+        return $this->input(self::LAST_NAME);
     }
 
     public function hasLastName() {
@@ -316,7 +318,7 @@ class UpdateUserRequest extends ListRequest implements Contract
     }
 
     public function getAge() {
-        return $this->get(self::AGE);
+        return $this->input(self::AGE);
     }
 
     public function hasAge() {
@@ -324,7 +326,7 @@ class UpdateUserRequest extends ListRequest implements Contract
     }
 
     public function getCreatedAt() {
-        return $this->get(self::CREATED_AT);
+        return $this->input(self::CREATED_AT);
     }
 
     public function hasCreatedAt() {
@@ -332,7 +334,7 @@ class UpdateUserRequest extends ListRequest implements Contract
     }
 
     public function getUpdatedAt() {
-        return $this->get(self::UPDATED_AT);
+        return $this->input(self::UPDATED_AT);
     }
 
     public function hasUpdatedAt() {
@@ -353,7 +355,7 @@ Generates: **User**NotFoundException
 ```php
 namespace App\Api\V1\Exceptions;
 
-use Devslane\Generator\Parents\HttpException;
+use Devslane\Generator\Exceptions\HttpException;
 
 /**
  * Class UserNotFoundException
