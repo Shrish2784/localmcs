@@ -14,12 +14,12 @@
         "illuminate/filesystem": "^5.8",
         "illuminate/database": "^5.8",
         "illuminate/console": "^5.8",
-        "dingo/api": "^2.1.0"
+        "dingo/api": "^2.1.0",
+        "devslane/helper": "master-dev"
     },
     "require-dev": {
         "illuminate/support": "^5.8",
-        "doctrine/dbal": "^2.9",
-        "devslane/helper": "dev-master"
+        "doctrine/dbal": "^2.9"
     },
     "autoload": {
         "psr-4": {
