@@ -6,12 +6,11 @@ namespace Devslane\Generator\Controllers;
 use Devslane\Generator\Requests\BaseRequest;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Routing\Controller;
 use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Support\Facades\Validator;
 
-
-class Controller extends BaseController
+class BaseController extends Controller
 {
     use Helpers, DispatchesJobs;
 

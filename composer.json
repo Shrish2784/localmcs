@@ -17,7 +17,8 @@
         "dingo/api": "^2.1.0",
         "devslane/helper": "master-dev",
         "doctrine/dbal": "^2.9",
-        "illuminate/support": "^5.8"
+        "illuminate/support": "^5.8",
+        "laravel/framework": "5.8.*"
     },
     "require-dev": {
 

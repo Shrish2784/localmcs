@@ -70,7 +70,7 @@ return [
         'path'          => 'app/Api/V1/Controllers',
         'namespace'     => 'App\Api\V1\Controllers',
         'overwrite'     => true,
-        'parent'        => 'Controller',
+        'parent'        => 'BaseController',
         'exclude_table' => [
             'password_resets', 'migrations',
         ],
