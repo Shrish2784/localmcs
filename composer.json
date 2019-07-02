@@ -18,7 +18,8 @@
     },
     "require-dev": {
         "illuminate/support": "^5.8",
-        "doctrine/dbal": "^2.9"
+        "doctrine/dbal": "^2.9",
+        "devslane/helper": "dev-master"
     },
     "autoload": {
         "psr-4": {
