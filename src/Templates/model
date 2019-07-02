@@ -7,7 +7,7 @@
 
 namespace {{namespace}};
 
-use Devslane\Generator\Parents\BaseModel;
+use Devslane\Generator\Models\BaseModel;
 
 /**
  * Class {{class}}

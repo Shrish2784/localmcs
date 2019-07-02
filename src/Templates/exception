@@ -7,7 +7,7 @@
 
 namespace {{namespace}};
 
-use Devslane\Generator\Parents\HttpException;
+use Devslane\Generator\Exceptions\HttpException;
 
 /**
  * Class {{class}}
