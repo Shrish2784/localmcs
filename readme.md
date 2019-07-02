@@ -473,6 +473,8 @@ class UserService
 }
 ```
 
+### Generate Transformer
+
 ### Generate Controller
 Generates a controller having fundamental CRUD functions, which the routes point to. These controller classes use
 the generated Services for the database operations.
@@ -485,5 +487,79 @@ php artisan generate:controller users
 Generates: **User**Controller
 
 ```php
+
+```
+
+### Generate Factory
+Generates the Factory class for the tables provided.
+
+_generate:factory {tables*}_
+
+```bash
+php artisan generate:facotory users
+```
+Generates: **User**Factory
+
+```php
+use App\User;
+use Faker\Generator as Faker;
+
+$factory->define(User::class, function (Faker $faker) {
+    return [
+		'first_name'=>$faker->firstName,
+		'last_name'=>$faker->lastName,
+		'age'=>$faker->numberBetween(0,100),
+		'created_at'=>$faker->dateTime,
+		'updated_at'=>$faker->dateTime,
+	];
+});
+```
+
+### Generate Seeder
+Generates the Database seeder for the tables. These seeders use the factories.
+By default the number of rows are 10 for the seeders and can be modified by changing it in the _mcs-helper.php_ in config.
+
+```php
+return [
+.
+.
+    'seeder'      => [
+        'row_count'     => 10,
+        'path'          => 'database/seeds',
+        'overwrite'     => true,
+        'exclude_table' => [
+            'password_resets', 'migrations',
+        ],
+    ]
+.
+.
+]
+```
+
+_generate:seeder {tables*}_
+
+```bash
+php artisan generate:seeder users
+```
+Generates: **User**Seeder
+
+```php
+use App\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Config;
+
+class UsersTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+
+    public function run() {
+        $size = (integer)Config::get('mcs-helper.seeder.row_count');
+        factory(User::class, $size)->create();
+    }
+}
 
 ```
