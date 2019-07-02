@@ -6,7 +6,7 @@
  * Time: 6:55 PM
  */
 
-namespace App\Api\V1\Exceptions;
+namespace Devslane\Generator\Parents;
 
 
 class HttpException extends \Symfony\Component\HttpKernel\Exception\HttpException

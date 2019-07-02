@@ -6,8 +6,8 @@
 * [`php artisan generate:model`](#generate-model)
 * [`php artisan generate:contract`](#generate-contract)
 * [`php artisan generate:request`](#generate-request)
-* [`php artisan generate:exception`](#)
-* [`php artisan generate:service`]()
+* [`php artisan generate:exception`](#generate-exception)
+* [`php artisan generate:service`](#generate-service)
 * [`php artisan generate:transformer`]()
 * [`php artisan generate:controller`]()
 * [`php artisan generate:factory`]()
@@ -86,7 +86,7 @@ _generate:model {tables*}_
 ```bash
 php artisan generate:model users
 ```
-
+Generates: **User**
 ```php
 namespace App;
 use Devslane\Generator\Models\BaseModel;
@@ -187,11 +187,13 @@ Running this for the very first time generates _ListRequest_ Class which is then
 ```php
 namespace App\Api\V1\Requests;
 
+use Devslane\Generator\Parents\BaseRequest;
+
 /**
  * Class ListTesttableRequest
  * @package App\Api\V1\Requests
  */
-class ListRequest extends Request
+class ListRequest extends BaseRequest
 {
     const LIMIT        = 'limit';
     const ORDER        = 'order';
@@ -342,17 +344,31 @@ class UpdateUserRequest extends ListRequest implements Contract
 ### Generate Exception
 This generates the _NotFoundExceptions_ related to the tables provided with the command.
 
- _generate:exception {tables*}_
+_generate:exception {tables*}_
  
- ```bash
- php artisan generate:exception users
- ```
-
-```php
-
+```bash
+php artisan generate:exception users
 ```
+Generates: **User**NotFoundException
+```php
+namespace App\Api\V1\Exceptions;
 
+use Devslane\Generator\Parents\HttpException;
 
+/**
+ * Class UserNotFoundException
+ * @package App\Api\V1\Exceptions
+ */
+class UserNotFoundException extends HttpException
+{
+    const ERROR_MESSAGE = 'User not Found';
+
+    public function __construct()
+    {
+        parent::__construct(self::ERROR_MESSAGE, self::ERROR_NOT_FOUND, 404);
+    }
+}
+```
 
 ### Generate Service
 This command generates Services for the given tables containing CRUD operations in the service. These services are used by
@@ -361,7 +377,97 @@ the Controllers to execute CRUD operations on the Database.
 _generate:service {tables*}_
 
 ```bash
-php artisan generate:request users
+php artisan generate:service users
 ```
+Generates: **User**Service
+```php
+namespace App\Services;
 
+
+use App\Api\V1\Exceptions\UserNotFoundException;
+use App\User;
+use App\Services\Contract\CreateUserContract;
+use App\Services\Contract\UpdateUserContract;
+
+/**
+ * Class UserService
+ * @package App\Services
+ */
+class UserService
+{
+
+    /**
+     * @param $userId
+     * @return User
+     */
+    public static function find($userId) {
+        $user = User::find($userId);
+        if (!$user) {
+            throw new UserNotFoundException();
+        }
+        return $user;
+    }
+
+    /**
+     * @return User[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function index() {
+        return User::all();
+    }
+
+    /**
+     * @param $userId
+     * @return User
+     */
+    public function show($userId) {
+        return self::find($userId);
+    }
+
+    /**
+     * @param CreateUserContract $contract
+     * @return User
+     */
+    public function store(CreateUserContract $contract) {
+        $user = new User();
+                $user->first_name = $contract->getFirstName();
+        $user->last_name = $contract->getLastName();
+        $user->age = $contract->getAge();
+
+        $user->save();
+        return $user;
+    }
+
+    /**
+     * @param $userId
+     * @param UpdateUserContract $contract
+     * @return User
+     */
+    public function update($userId, UpdateUserContract $contract) {
+        $user = self::find($userId);
+                if ($contract->hasFirstName()) {
+            $user->first_name = $contract->getFirstName();
+        }
+        if ($contract->hasLastName()) {
+            $user->last_name = $contract->getLastName();
+        }
+        if ($contract->hasAge()) {
+            $user->age = $contract->getAge();
+        }
+
+        $user->save();
+        return $user;
+    }
+
+    /**
+     * @param $userId
+     */
+    public function delete($userId) {
+        $user = $this->find($userId);
+        try {
+            $user->delete();
+        } catch (\Exception $e) {
+        }
+    }
+}
+```
 

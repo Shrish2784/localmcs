@@ -7,6 +7,7 @@
 
 namespace {{namespace}};
 
+use Devslane\Generator\Parents\HttpException;
 
 /**
  * Class {{class}}
@@ -16,9 +17,6 @@ class {{class}} extends HttpException
 {
     const ERROR_MESSAGE = '{{model}} not Found';
 
-    /**
-     * JobNotFoundException constructor.
-     */
     public function __construct()
     {
         parent::__construct(self::ERROR_MESSAGE, self::ERROR_NOT_FOUND, 404);

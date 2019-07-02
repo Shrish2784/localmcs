@@ -7,11 +7,13 @@
 
 namespace App\Api\V1\Requests;
 
+use Devslane\Generator\Parents\BaseRequest;
+
 /**
  * Class ListTesttableRequest
  * @package App\Api\V1\Requests
  */
-class ListRequest extends Request
+class ListRequest extends BaseRequest
 {
     const LIMIT       = 'limit';
     const ORDER       = 'order';

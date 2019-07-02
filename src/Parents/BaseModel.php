@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Devslane\Generator\Models;
+namespace Devslane\Generator\Parents;
 
 
 use Carbon\Carbon;

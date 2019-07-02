@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Devslane\Generator\Requests;
+namespace Devslane\Generator\Parents;
 
 use Dingo\Api\Http\Request;
 
