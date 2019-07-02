@@ -117,7 +117,6 @@ return [
         'path'          => 'app',
         'namespace'     => 'App',
         'overwrite'     => true,
-        'parent'        => 'BaseModel',
         'exclude_table' => [
             'password_resets'
         ],

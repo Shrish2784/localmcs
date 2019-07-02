@@ -57,7 +57,7 @@ class GenerateRequest extends Generator
             $this->className = "$this->className$suffix";
         }
         $this->contractName = str_replace('Request', 'Contract', $this->className);
-        $contractPath       = Config::get('mcs-helper.namespace.contract');
+        $contractPath       = Config::get('mcs-helper.contract.namespace');
         $this->contractName = $contractPath . '\\' . $this->contractName;
     }
 
