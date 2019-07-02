@@ -7,7 +7,7 @@
 
 namespace App\Api\V1\Requests;
 
-use Devslane\Generator\Parents\BareRequest;
+use Devslane\Generator\Requests\BaseRequest;
 
 /**
  * Class ListTesttableRequest
