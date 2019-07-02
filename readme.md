@@ -473,3 +473,17 @@ class UserService
 }
 ```
 
+### Generate Controller
+Generates a controller having fundamental CRUD functions, which the routes point to. These controller classes use
+the generated Services for the database operations.
+
+_generate:controller {tables*}_
+
+```bash
+php artisan generate:controller users
+```
+Generates: **User**Controller
+
+```php
+
+```
