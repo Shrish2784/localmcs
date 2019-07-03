@@ -8,10 +8,10 @@
 * [`php artisan generate:request`](#generate-request)
 * [`php artisan generate:exception`](#generate-exception)
 * [`php artisan generate:service`](#generate-service)
-* [`php artisan generate:transformer`]()
-* [`php artisan generate:controller`]()
-* [`php artisan generate:factory`]()
-* [`php artisan generate:seeder`]()
+* [`php artisan generate:transformer`](#generate-transformer)
+* [`php artisan generate:controller`](#generate-controller)
+* [`php artisan generate:factory`](#generate-factory)
+* [`php artisan generate:seeder`](#generate-seeder)
 
 ### Installation
 Require this package with composer using the following command:
@@ -474,10 +474,16 @@ class UserService
 ```
 
 ### Generate Transformer
+Generates the Transformer for the response that will be generated after any CRUD operation, the Controller exploit these
+Transformers to transform the response in the desired format.
+
+
 
 ### Generate Controller
 Generates a controller having fundamental CRUD functions, which the routes point to. These controller classes use
 the generated Services for the database operations.
+
+Makes use of the Transformer generated for that Database Table.
 
 _generate:controller {tables*}_
 
@@ -487,6 +493,78 @@ php artisan generate:controller users
 Generates: **User**Controller
 
 ```php
+namespace App\Api\V1\Controllers;
+
+
+use App\Transformers\UserTransformer;
+use App\Api\V1\Requests\CreateUserRequest;
+use App\Api\V1\Requests\UpdateUserRequest;
+use App\Services\UserService;
+use Devslane\Generator\Controllers\BaseController;
+
+/**
+ * Class UserController
+ * @package App\Api\V1\Controllers
+ *
+ * @property-read UserService $userService
+ */
+class UserController extends BaseController
+{
+    protected $userService;
+
+    public function __construct() {
+        $this->userService = new UserService();
+    }
+    
+    
+    /**
+     * @param UserService $service
+     * @return \Dingo\Api\Http\Response
+     */
+    public function index(UserService $service) {
+        $users = $service->index();
+        return $this->response->collection($users, new UserTransformer());
+    }
+
+    /**
+     * @param $id
+     * @param UserService $service
+     * @return \Dingo\Api\Http\Response
+     */
+    public function show($id, UserService $service) {
+        $user = $service->show($id);
+        return $this->response->item($user, new UserTransformer());
+    }
+
+    /**
+     * @param CreateUserRequest $request
+     * @param UserService $service
+     * @return \Dingo\Api\Http\Response
+     */
+    public function store(CreateUserRequest $request, UserService $service) {
+        $user = $service->store($request);
+        return $this->response->item($user, new UserTransformer());
+    }
+
+    /**
+     * @param UpdateUserRequest $request
+     * @param $id
+     * @param UserService $service
+     * @return \Dingo\Api\Http\Response
+     */
+    public function update(UpdateUserRequest $request, $id, UserService $service) {
+        $user = $service->update($id, $request);
+        return $this->response->item($user, new UserTransformer());
+    }
+    
+    /**
+     * @param $id
+     * @param UserService $service
+     */
+    public function destroy($id, UserService $service) {
+        $service->delete($id);
+    }
+}
 
 ```
 
