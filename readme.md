@@ -477,7 +477,36 @@ class UserService
 Generates the Transformer for the response that will be generated after any CRUD operation, the Controller exploit these
 Transformers to transform the response in the desired format.
 
+_generate:transformer {tables*}_
 
+```bash
+php artisan generate:transformer users
+```
+Generates: **User**Transformer
+
+```php
+namespace App\Transformers;
+
+
+use App\User;
+use League\Fractal\TransformerAbstract;
+
+class UserTransformer extends TransformerAbstract
+{
+
+    public function transform(User $user){
+        return [
+			'id' => $user->id,
+			'first_name' => $user->first_name,
+			'last_name' => $user->last_name,
+			'age' => (int)$user->age,
+			'created_at' => $user->created_at,
+			'updated_at' => $user->updated_at,
+		];
+    }
+}
+
+```
 
 ### Generate Controller
 Generates a controller having fundamental CRUD functions, which the routes point to. These controller classes use
