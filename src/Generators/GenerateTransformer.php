@@ -11,7 +11,6 @@ namespace Devslane\Generator\Generators;
 
 use Carbon\Carbon;
 use Devslane\Generator\Services\FileSystemService;
-use Devslane\HelperUtil;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\IntegerType;
 
@@ -85,11 +84,12 @@ class GenerateTransformer extends Generator
         $data    = "";
         $model   = '$' . strtolower($this->model);
         foreach ($columns as $key => $column) {
+            if ($column->getNotnull()) { // is not nullable
+                // TODO
+            }
             switch ($column->getType()->getName()) {
                 case IntegerType::INTEGER:
-                    if (HelperUtil::nullOrInteger($column)) {
-                        $data .= "\t\t\t'$key' => (int)$model->$key,\n";
-                    }
+                    $data .= "\t\t\t'$key' => (int)$model->$key,\n";
                     break;
                 case IntegerType::DATETIME:
                     $data .= "\t\t\t'$key' => $model->$key,\n";
@@ -98,10 +98,7 @@ class GenerateTransformer extends Generator
                     $data .= "\t\t\t'$key' => $model->$key,\n";
                     break;
                 case IntegerType::BOOLEAN:
-
-                    if (HelperUtil::nullOrBool($column)) {
-                        $data .= "\t\t\t'$key' => (int)$model->$key,\n";
-                    }
+                    $data .= "\t\t\t'$key' => (bool)$model->$key,\n";
                     break;
                 default:
                     $data .= "\t\t\t'$key' => $model->$key,\n";
