@@ -85,24 +85,41 @@ class GenerateTransformer extends Generator
         $model   = '$' . strtolower($this->model);
         foreach ($columns as $key => $column) {
             if ($column->getNotnull()) { // is not nullable
-                // TODO
+                switch ($column->getType()->getName()) {
+                    case IntegerType::INTEGER:
+                        $data .= "\t\t\t'$key' => (int)$model->$key,\n";
+                        break;
+                    case IntegerType::DATETIME:
+                        $data .= "\t\t\t'$key' => $model->$key,\n";
+                        break;
+                    case IntegerType::STRING:
+                        $data .= "\t\t\t'$key' => $model->$key,\n";
+                        break;
+                    case IntegerType::BOOLEAN:
+                        $data .= "\t\t\t'$key' => (bool)$model->$key,\n";
+                        break;
+                    default:
+                        $data .= "\t\t\t'$key' => $model->$key,\n";
+                }
+            } else {
+                switch ($column->getType()->getName()) {
+                    case IntegerType::INTEGER:
+                        $data .= "\t\t\t'$key' => HelperUtil::nullOrInteger($model->$key),\n";
+                        break;
+                    case IntegerType::DATETIME:
+                        $data .= "\t\t\t'$key' => $model->$key,\n";
+                        break;
+                    case IntegerType::STRING:
+                        $data .= "\t\t\t'$key' => $model->$key,\n";
+                        break;
+                    case IntegerType::BOOLEAN:
+                        $data .= "\t\t\t'$key' => HelperUtil::nullOrBool($model->$key),\n";
+                        break;
+                    default:
+                        $data .= "\t\t\t'$key' => $model->$key,\n";
+                }
             }
-            switch ($column->getType()->getName()) {
-                case IntegerType::INTEGER:
-                    $data .= "\t\t\t'$key' => (int)$model->$key,\n";
-                    break;
-                case IntegerType::DATETIME:
-                    $data .= "\t\t\t'$key' => $model->$key,\n";
-                    break;
-                case IntegerType::STRING:
-                    $data .= "\t\t\t'$key' => $model->$key,\n";
-                    break;
-                case IntegerType::BOOLEAN:
-                    $data .= "\t\t\t'$key' => (bool)$model->$key,\n";
-                    break;
-                default:
-                    $data .= "\t\t\t'$key' => $model->$key,\n";
-            }
+
         }
         $this->body = "return [\n$data\t\t];";
     }
